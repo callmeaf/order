@@ -1,0 +1,24 @@
+{
+    "name": "callmeaf/order",
+    "description": "Manage Orders System",
+    "type": "library",
+    "require": {
+        "callmeaf/base": "dev-master",
+        "callmeaf/user": "dev-master",
+        "callmeaf/payment": "dev-master",
+        "callmeaf/voucher": "dev-master"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Callmeaf\\Order\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "alikhoshkar",
+            "email": "alikhoshkar2000@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
