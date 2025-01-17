@@ -85,7 +85,6 @@ class OrderController extends ApiController
     {
         try {
             $resources = $this->orderResources->show();
-            logger($resources->relations());
             $order = $this->orderService->setModel($order)->getModel(
                 asResource: true,
                 attributes: $resources->attributes(),
