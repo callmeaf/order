@@ -8,6 +8,7 @@ use Callmeaf\Base\App\Traits\Model\HasDate;
 use Callmeaf\Base\App\Traits\Model\HasStatus;
 use Callmeaf\Base\App\Traits\Model\HasType;
 use Callmeaf\OrderItem\App\Repo\Contracts\OrderItemRepoInterface;
+use Callmeaf\User\App\Repo\Contracts\UserRepoInterface;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -61,5 +62,27 @@ class Order extends BaseModel
          */
         $addressRepo = app(AddressRepoInterface::class);
         return $this->belongsTo($addressRepo->getModel()::class,'address_id',$addressRepo->getModel()->getKeyName());
+    }
+
+    public function user(): BelongsTo
+    {
+        /**
+         * @var UserRepoInterface $userRepo
+         */
+        $userRepo = app(UserRepoInterface::class);
+        return $this->belongsTo($userRepo->getModel()::class,'user_identifier',$userRepo->getModel()->identifierKey());
+    }
+
+    public function variants(): array
+    {
+        $data = [];
+
+        foreach ($this->items()->with(['variant'])->get() as $item) {
+            $variant = $item->variant;
+            $variant->qty = $item->qty;
+            $data[] = $variant;
+        }
+
+        return $data;
     }
 }

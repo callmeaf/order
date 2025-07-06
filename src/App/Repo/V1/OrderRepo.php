@@ -7,6 +7,7 @@ use Callmeaf\Base\App\Repo\V1\BaseRepo;
 use Callmeaf\Cart\App\Models\Cart;
 use Callmeaf\Cart\App\Repo\Contracts\CartRepoInterface;
 use Callmeaf\Order\App\Http\Resources\Api\V1\OrderResource;
+use Callmeaf\Order\App\Models\Order;
 use Callmeaf\Order\App\Repo\Contracts\OrderRepoInterface;
 use Callmeaf\OrderItem\App\Enums\OrderItemStatus;
 use Callmeaf\OrderItem\App\Enums\OrderItemType;
@@ -66,17 +67,21 @@ class OrderRepo extends BaseRepo implements OrderRepoInterface
         $data['total_cost'] = $orderItems->sum('total_cost');
         $data['total_profit'] = $orderItems->sum('profit');
         /**
-         * @var OrderResource $order
+         * @var Order $order
          */
-        $order = parent::create($data);
+        $order = parent::createQuietly($data);
         $orderItems = $orderItems->map(function($item) use ($order) {
             $item['order_code'] = $order->code;
+            $item['created_at'] = now();
+            $item['updated_at'] = now();
             return $item;
         });
 
-        $order->resource->items()->insert($orderItems->toArray());
+        $order->items()->insert($orderItems->toArray());
 
-        return $order;
+        $this->eventsCaller($order);
+
+        return $this->toResource($order);
     }
 
 }
