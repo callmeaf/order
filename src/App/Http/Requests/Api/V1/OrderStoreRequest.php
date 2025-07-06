@@ -22,7 +22,9 @@ class OrderStoreRequest extends FormRequest
         if(! $addressId) {
             return true;
         }
-        return $this->user()->addresses()->active()->whereKey($this->get('address_id'))->exists();
+
+        $user = $this->user();
+        return $user->addresses()->active()->whereKey($this->get('address_id'))->exists() && ! $user->currentCart->hasItems();
     }
 
     /**

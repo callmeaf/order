@@ -28,6 +28,7 @@ return [
             \Callmeaf\Order\App\Events\Api\V1\OrderCreated::class => [
                 \Callmeaf\Order\App\Listeners\Api\V1\EmptyUserCart::class,
                 \Callmeaf\Order\App\Listeners\Api\V1\DecreaseVariantStock::class,
+                \Callmeaf\Order\App\Listeners\Api\V1\NotifyOrderCreated::class,
             ],
             \Callmeaf\Order\App\Events\Api\V1\OrderShowed::class => [
                 // listeners

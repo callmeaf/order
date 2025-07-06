@@ -9,9 +9,10 @@ use Callmeaf\Base\Contracts\ServiceProvider\HasLang;
 use Callmeaf\Base\Contracts\ServiceProvider\HasMigration;
 use Callmeaf\Base\Contracts\ServiceProvider\HasRepo;
 use Callmeaf\Base\Contracts\ServiceProvider\HasRoute;
+use Callmeaf\Base\Contracts\ServiceProvider\HasView;
 use Callmeaf\Order\App\Repo\Contracts\OrderRepoInterface;
 
-class CallmeafOrderServiceProvider extends CallmeafServiceProvider implements HasRepo, HasEvent, HasRoute, HasMigration, HasConfig, HasLang
+class CallmeafOrderServiceProvider extends CallmeafServiceProvider implements HasRepo, HasEvent, HasRoute, HasMigration, HasConfig, HasLang,HasView
 {
     protected function serviceKey(): string
     {
